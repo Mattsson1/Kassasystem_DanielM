@@ -4,7 +4,12 @@
     {
         public class NyKund
         {
+            public void NewCustomer()
+            {
 
+
+
+            }
         }
     }
 }
