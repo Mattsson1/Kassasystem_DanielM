@@ -85,6 +85,8 @@ namespace Kassasystem
                     {
                         if (p.ProduktID == ID)
                         {
+                            kvittoLista.Add($"***************KASSA-KVITTO*****************");
+
                             varor++;
                             if (varor == 1)
                             {
@@ -111,26 +113,7 @@ namespace Kassasystem
                         
                     }
 
-
-                    List<string> kvittoText = File.ReadAllLines(receiptPath).ToList();
-                    //var lopNummret = kvittoText.Where(t => t.Contains($"--------------KVITTO LÖPNUMMER: 0--------------")).Count();
-                    foreach (var s in kvittoText)
-                    {
-                        if (s.Contains("KVITTO LÖPNUMMER:"))
-                        {
-                            produkt.lopNummer++;
-                            kvittoLista.Add($"--------------KVITTO LÖPNUMMER: {produkt.lopNummer}--------------");
-                        }
-                        else
-                        {
-                            kvittoLista.Add($"--------------KVITTO LÖPNUMMER: {produkt.lopNummer}--------------");
-                        }
-
-
-                    }
-
-
-
+                        
                     Console.WriteLine($"TOTALT: {totalSumma}");
 
                     if (productID == "pay".ToLower())
@@ -141,16 +124,33 @@ namespace Kassasystem
 
                         if (!File.Exists(receiptPath))
                         {
-                            File.WriteAllLines(receiptPath, kvittoLista);    
+                            kvittoLista.Add($"--------------KVITTO-NUMMER: {produkt.lopNummer}--------------");
+
+                            File.WriteAllLines(receiptPath, kvittoLista);
+                            
                         }
                         else
                         {
+                            List<string> kvittoText = File.ReadAllLines(receiptPath).ToList();
+                            foreach (var s in kvittoText)
+                            {
+                                if (s.Contains("KVITTO-NUMMER:"))
+                                {
+                                    produkt.lopNummer++;
+                                    
+                                    
+                                }
+                            }
+
+                            kvittoLista.Add($"--------------KVITTO-NUMMER: {produkt.lopNummer}--------------\n");
+
                             File.AppendAllLines(receiptPath, kvittoLista);
+
+
                         }
 
                         cashier = false;
-                        Console.WriteLine("");
-                        Console.ReadKey();
+                        
                     }
                 }
             }
