@@ -1,38 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Kassasystem
+﻿namespace Kassasystem
 {
     internal class App
     {
         public void Run()
         {
             var nyKund = new Program.NyKund();
-            
-
-            Console.WriteLine("KASSA");
-            Console.WriteLine("1. Ny kund");
-            Console.WriteLine("2. Avsluta");
-
             int val;
+            bool isSelectionOk = false;
 
-            if(int.TryParse(Console.ReadLine(), out val))
+            while (isSelectionOk == false)
             {
-                switch (val)
+                Console.Clear();
+                Console.WriteLine("KASSA");
+                Console.WriteLine("1. Ny kund");
+                Console.WriteLine("2. Avsluta");
+
+
+                if (int.TryParse(Console.ReadLine(), out val))
                 {
-                    case 1:
-                        nyKund.NewCustomer();
-
-                        break;
-
+                    switch (val)
+                    {
+                        case 1:
+                            nyKund.NewCustomer();
+                            break;
+                        case 2:
+                            isSelectionOk = true;
+                            break;
+                        default:
+                            Console.WriteLine("Ogiltigt val");
+                            break;
+                    }
                 }
-
-
-
+                else
+                {
+                    Console.WriteLine("Ogiltig inmatning");
+                }
             }
-
+        }
     }
 }
