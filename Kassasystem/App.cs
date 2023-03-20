@@ -4,7 +4,12 @@
     {
         public void Run()
         {
+            
+            
+            Console.Clear();
             var nyKund = new Program.NyKund();
+            var admin = new AdminConsoleApp();
+
             int val;
             bool isSelectionOk = false;
 
@@ -14,7 +19,7 @@
                 Console.WriteLine("KASSA");
                 Console.WriteLine("1. Ny kund");
                 Console.WriteLine("2. Avsluta");
-
+                Console.WriteLine("3. Admin");
 
                 if (int.TryParse(Console.ReadLine(), out val))
                 {
@@ -26,14 +31,19 @@
                         case 2:
                             isSelectionOk = true;
                             break;
+                        case 3:
+                            
+                            break;
                         default:
                             Console.WriteLine("Ogiltigt val");
+                            Console.ReadKey();
                             break;
                     }
                 }
                 else
                 {
                     Console.WriteLine("Ogiltig inmatning");
+                    Console.ReadKey();
                 }
             }
         }

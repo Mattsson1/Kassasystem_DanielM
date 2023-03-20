@@ -1,13 +1,13 @@
 ﻿namespace Kassasystem
 {
-    public class ReadTextFile
+    public class ReadTextFile : IReadProduct
     {
-
 
         public void GetID()
         {
 
-        
+
+   
 
         }
     }
