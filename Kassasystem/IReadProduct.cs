@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace Kassasystem
 {
-    internal interface ReadProduct
+    internal interface IReadProduct
     {
-        
+        public void ReadFile()
+        {
+
+        }
+
 
     }
 }

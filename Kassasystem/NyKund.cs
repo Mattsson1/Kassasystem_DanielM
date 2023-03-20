@@ -1,5 +1,4 @@
-﻿using static Kassasystem.Program;
-using static System.Net.Mime.MediaTypeNames;
+﻿using System.Runtime.CompilerServices;
 
 namespace Kassasystem
 {
@@ -8,17 +7,43 @@ namespace Kassasystem
     {
         public class NyKund
         {
+            private string productID;
+            private string[] products;
 
-            
+            private string vara;
+            private string ID;
+            private string amount;
+            private int varor = 0;
+            private double totalSumma = 0;
+            private string stringSumma;
+            private void ProductInput()
+            {
+                Console.WriteLine("Kommandon:");
+                Console.WriteLine("<product id> <antal>");
+                Console.WriteLine("PAY");
+                Console.Write("Kommando:");
+
+                productID = "";
+                productID = Console.ReadLine().ToLower();
+
+                vara = productID;
+
+                products = vara.Split(" ");
+            }
 
             public void NewCustomer()
             {
+                Console.Clear();
+                bool isPaying = false;
+                bool isProduktOK = false;
+                bool isSucces = false;
+
                 DateTime dagensDatum = DateTime.Today;
                 string dagensDatumStr = dagensDatum.ToString("yyyy-MM-dd");
 
-
-                string produktPath = "C:\\Users\\Gamer\\Documents\\GitHub\\Kassasystem_DanielM\\Kassasystem\\Produkt.txt";
-                string receiptPath = $"C:\\Users\\Gamer\\Documents\\GitHub\\Kassasystem_DanielM\\Kassasystem\\Kvitton\\RECEIPT_{dagensDatumStr}.txt";
+                string produktPath = @"C:\Users\Gamer\Documents\GitHub\Kassasystem_DanielM\Kassasystem\Produkt.txt";//FIXA ROOT PATH
+                string receiptPath = @$"C:\Users\Gamer\Documents\GitHub\Kassasystem_DanielM\Kassasystem\Kvitton\\RECEIPT_{dagensDatumStr}.txt";
+                string folder = @"C:\Users\Gamer\Documents\GitHub\Kassasystem_DanielM\Kassasystem\Kvitton\";
                 var produkt = new Produkt();
 
                 var produkter = new List<Produkt>();
@@ -35,40 +60,24 @@ namespace Kassasystem
                     readProdukt.ProduktNamn = strings[1];
                     readProdukt.Pris = strings[2];
                     readProdukt.Enhet = strings[3];
-                   
+
                     produkter.Add(readProdukt);
                 }
 
-                string productID;
-                string vara;
-                string ID;
-                string amount;
-                int varor = 0;
-                double totalSumma = 0;
-                string stringSumma;
-
-                bool cashier = true;
-
-                while (cashier == true)
+                while (isPaying == false)
                 {
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.WriteLine("KASSA");
-                    Console.WriteLine("Kommandon");
-                    Console.WriteLine("<product id> <antal>");
+                    while (isProduktOK == false)
+                    {
 
-                        productID = Console.ReadLine();
-                        vara = productID;
+                        Console.BackgroundColor = ConsoleColor.Black;
 
-                        string[] products = vara.Split(" ");
+                        ProductInput();
 
-                        while (products.Length < 1 || products.Length > 2)
+                        while (products.Length < 1 || products.Length > 2)//Fixa kommandon/text
                         {
                             Console.WriteLine("Du måste fylla i <produktid> och <antal>! ");
-                            Console.ReadKey();
-                            productID = Console.ReadLine();
-                            vara = productID;
 
-                            products = vara.Split(" ");
+                            ProductInput();//Stackover flow???
                         }
                         if (products.Length != 2)
                         {
@@ -80,78 +89,125 @@ namespace Kassasystem
                             ID = products[0];
                             amount = products[1];
                         }
-           
-                    foreach (var p in produkter)
-                    {
-                        if (p.ProduktID == ID)
+                        bool isAmountOkConvert = Double.TryParse(amount, out double convertedAmount);
+                        bool isIdOkConvert = Double.TryParse(ID, out double convertedID);
+                        if (isIdOkConvert == false)
                         {
-                            kvittoLista.Add($"***************KASSA-KVITTO*****************");
-
-                            varor++;
-                            if (varor == 1)
-                            {
-                                kvittoLista.Add($"{p.now} \n{p.ProduktNamn} {amount}st *{p.Pris} = {Convert.ToDouble(p.Pris) * Convert.ToDouble(amount)}");
-                                totalSumma += Convert.ToDouble(p.Pris) * Convert.ToDouble(amount);
-                            }
-                            else
-                            {
-                                kvittoLista.Add($"{p.ProduktNamn} {amount}st *{p.Pris} = {Convert.ToDouble(p.Pris) * Convert.ToInt32(amount)}");
-                                totalSumma += Convert.ToDouble(p.Pris) * Convert.ToDouble(amount);
-                                
-                            }
+                            Console.WriteLine("ProduktID måste vara en siffra!");
+                            Console.ReadKey();
                         }
-                    }
-
-                    Console.Clear();
-
-                    Console.WriteLine("KVITTO");
-                    foreach (var kvitto in kvittoLista)
-                    {
-                        Console.BackgroundColor = ConsoleColor.Red;
-                        Console.WriteLine(kvitto);
-
-                        
-                    }
-
-                        
-                    Console.WriteLine($"TOTALT: {totalSumma}");
-
-                    if (productID == "pay".ToLower())
-                    {
-                        stringSumma = Convert.ToString(totalSumma);
-                        kvittoLista.Add(stringSumma);
-
-
-                        if (!File.Exists(receiptPath))
+                        foreach (var p in produkter)
                         {
-                            kvittoLista.Add($"--------------KVITTO-NUMMER: {produkt.lopNummer}--------------");
+                            if (p.ProduktID == ID)
+                            {
 
-                            File.WriteAllLines(receiptPath, kvittoLista);
-                            
+                                //kvittoLista.Add($"***************KASSA-KVITTO*****************");
+                                if (isAmountOkConvert == false)
+                                {
+                                    Console.WriteLine("Fyll i ett giltigt antal!");
+                                    Console.ReadKey();
+                                    break;
+                                }
+
+                                varor++;
+                                if (varor == 1)
+                                {
+                                    //Convert.ToDouble(p.Pris)
+                                    kvittoLista.Add($"KVITTO    {p.now} \n{p.ProduktNamn} {amount} *{p.Pris}{p.Enhet} = {convertedID * convertedAmount}");
+                                    totalSumma += convertedID * convertedAmount;
+
+                                }
+                                else
+                                {
+                                    kvittoLista.Add($"{p.ProduktNamn} {amount} *{p.Pris}{p.Enhet} = {convertedID * convertedAmount}");
+                                    totalSumma += convertedID * convertedAmount;
+
+                                }
+                                isProduktOK = true;
+                                break;
+
+                            }
+
                         }
-                        else
+
+                        if (productID == "pay".ToLower())
                         {
-                            List<string> kvittoText = File.ReadAllLines(receiptPath).ToList();
-                            foreach (var s in kvittoText)
+                            isProduktOK = true;
+                            break;
+                        }
+                        if (isProduktOK == false && isAmountOkConvert == true && isIdOkConvert == true)
+                        {
+                            Console.WriteLine("Varan finns inte");
+                            Console.ReadKey();
+                        }
+
+
+                        Console.Clear();
+                        Console.WriteLine("KASSA");
+
+                        foreach (var kvitto in kvittoLista)
+                        {
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.WriteLine(kvitto);
+                        }
+
+                        Console.WriteLine($"TOTALT: {totalSumma}");
+                        isProduktOK = false;
+
+                    }
+                    stringSumma = Convert.ToString(totalSumma);
+                    kvittoLista.Add(stringSumma);
+
+                    if (!Directory.Exists(folder))
+                    {
+                        Directory.CreateDirectory(folder);
+                    }
+                    if (!File.Exists(receiptPath))
+                    {
+                        File.WriteAllLines(receiptPath, kvittoLista);
+
+                        List<string> kvittoText = File.ReadAllLines(receiptPath).ToList();
+
+                        foreach (var file in Directory.EnumerateFiles(folder))
+                        {
+                            List<string> kvittoText2 = File.ReadAllLines(file).ToList();
+                            foreach (var s in kvittoText2)
                             {
                                 if (s.Contains("KVITTO-NUMMER:"))
                                 {
                                     produkt.lopNummer++;
-                                    
-                                    
                                 }
                             }
-
-                            kvittoLista.Add($"--------------KVITTO-NUMMER: {produkt.lopNummer}--------------\n");
-
-                            File.AppendAllLines(receiptPath, kvittoLista);
-
-
                         }
+                        kvittoLista.Add($"--------------KVITTO-NUMMER: {produkt.lopNummer}--------------");
 
-                        cashier = false;
-                        
+                        File.WriteAllLines(receiptPath, kvittoLista);
                     }
+                    else
+                    {
+                        List<string> kvittoText = File.ReadAllLines(receiptPath).ToList();
+
+                        foreach (var file in Directory.EnumerateFiles(folder))
+
+                        {
+                            List<string> kvittoText2 = File.ReadAllLines(file).ToList();
+                            foreach (var s in kvittoText2)
+                            {
+                                if (s.Contains("KVITTO-NUMMER:"))
+                                {
+                                    produkt.lopNummer++;
+                                }
+                            }
+                        }
+                        kvittoLista.Add($"--------------KVITTO-NUMMER: {produkt.lopNummer}--------------\n");
+                        File.AppendAllLines(receiptPath, kvittoLista);
+
+                    }
+                    isPaying = true;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    break;
+
+
                 }
             }
         }

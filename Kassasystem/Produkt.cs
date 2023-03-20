@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kassasystem
 {
-    internal class Produkt
+    public class Produkt
     {
 
         public DateTime now = DateTime.Now;
