@@ -83,7 +83,7 @@ namespace Kassasystem
                         {
                             Console.WriteLine("Du måste fylla i <produktid> och <antal>! ");
 
-                            ProductInput();//Stackover flow???
+                            ProductInput();
                         }
                         if (products.Length != 2)
                         {
