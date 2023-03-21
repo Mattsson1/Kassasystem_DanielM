@@ -41,9 +41,10 @@ namespace Kassasystem
                 DateTime dagensDatum = DateTime.Today;
                 string dagensDatumStr = dagensDatum.ToString("yyyy-MM-dd");
 
-                string produktPath = @"C:\Users\Gamer\Documents\GitHub\Kassasystem_DanielM\Kassasystem\Produkt.txt";//FIXA ROOT PATH
-                string receiptPath = @$"C:\Users\Gamer\Documents\GitHub\Kassasystem_DanielM\Kassasystem\Kvitton\\RECEIPT_{dagensDatumStr}.txt";
-                string folder = @"C:\Users\Gamer\Documents\GitHub\Kassasystem_DanielM\Kassasystem\Kvitton\";
+                string produktPath = @".\Produkt.txt";//FIXA ROOT PATH
+                string receiptPath = @$".\Kvitton\RECEIPT_{dagensDatumStr}.txt";
+                string folder = @".\Kvitton\";//Lägga i bin
+                
                 var produkt = new Produkt();
 
                 var produkter = new List<Produkt>();
@@ -72,6 +73,11 @@ namespace Kassasystem
                         Console.BackgroundColor = ConsoleColor.Black;
 
                         ProductInput();
+                        if (productID == "pay".ToLower())
+                        {
+                            isProduktOK = true;
+                            break;
+                        }
 
                         while (products.Length < 1 || products.Length > 2)//Fixa kommandon/text
                         {
@@ -89,6 +95,7 @@ namespace Kassasystem
                             ID = products[0];
                             amount = products[1];
                         }
+
                         bool isAmountOkConvert = Double.TryParse(amount, out double convertedAmount);
                         bool isIdOkConvert = Double.TryParse(ID, out double convertedID);
                         if (isIdOkConvert == false)
@@ -130,11 +137,7 @@ namespace Kassasystem
 
                         }
 
-                        if (productID == "pay".ToLower())
-                        {
-                            isProduktOK = true;
-                            break;
-                        }
+                       
                         if (isProduktOK == false && isAmountOkConvert == true && isIdOkConvert == true)
                         {
                             Console.WriteLine("Varan finns inte");
