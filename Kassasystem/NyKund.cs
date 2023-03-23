@@ -1,19 +1,13 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Kassasystem
+﻿namespace Kassasystem
 {
-
-    internal partial class Program
-    {
         public class NyKund
         {
             private string productID;
             private string[] products;
 
-            private string vara;
-            private string ID;
-            private string amount;
+            private string vara, ID,amount;
             private int varor = 0;
+
             private double totalSumma = 0;
             private string stringSumma;
             private void ProductInput()
@@ -30,27 +24,17 @@ namespace Kassasystem
 
                 products = vara.Split(" ");
             }
-
-            public void NewCustomer()
+            public List<Produkt> ReadProductFile()
             {
-                Console.Clear();
-                bool isPaying = false;
-                bool isProduktOK = false;
-                bool isSucces = false;
+                string produktPath = @".\Produkt.txt";
 
-                DateTime dagensDatum = DateTime.Today;
-                string dagensDatumStr = dagensDatum.ToString("yyyy-MM-dd");
-
-                string produktPath = @".\Produkt.txt";//FIXA ROOT PATH
-                string receiptPath = @$".\Kvitton\RECEIPT_{dagensDatumStr}.txt";
-                string folder = @".\Kvitton\";//Lägga i bin
-                
-                var produkt = new Produkt();
+                if (!File.Exists(produktPath))
+                {
+                    File.Create(produktPath);
+                }
+                List<string> lines = File.ReadAllLines(produktPath).ToList();
 
                 var produkter = new List<Produkt>();
-
-                List<string> kvittoLista = new List<string>();
-                List<string> lines = File.ReadAllLines(produktPath).ToList();//Retunerar en string array
 
                 foreach (string line in lines)
                 {
@@ -65,6 +49,32 @@ namespace Kassasystem
                     produkter.Add(readProdukt);
                 }
 
+                return produkter;
+
+            }
+            
+            
+
+
+            public void NewCustomer()
+            {
+                Console.Clear();
+                bool isPaying = false;
+                bool isProduktOK = false;
+                bool isSucces = false;
+
+                DateTime dagensDatum = DateTime.Today;
+                string dagensDatumStr = dagensDatum.ToString("yyyy-MM-dd");
+
+                //FIXA ROOT PATH
+                string receiptPath = @$".\Kvitton\RECEIPT_{dagensDatumStr}.txt";
+                string folder = @".\Kvitton\";
+
+                var produkt = new Produkt();
+                List<string> kvittoLista = new List<string>();
+
+                
+
                 while (isPaying == false)
                 {
                     while (isProduktOK == false)
@@ -73,6 +83,9 @@ namespace Kassasystem
                         Console.BackgroundColor = ConsoleColor.Black;
 
                         ProductInput();
+
+                        List<Produkt> produkter = ReadProductFile();
+
                         if (productID == "pay".ToLower())
                         {
                             isProduktOK = true;
@@ -103,6 +116,8 @@ namespace Kassasystem
                             Console.WriteLine("ProduktID måste vara en siffra!");
                             Console.ReadKey();
                         }
+
+                        
                         foreach (var p in produkter)
                         {
                             if (p.ProduktID == ID)
@@ -137,7 +152,7 @@ namespace Kassasystem
 
                         }
 
-                       
+
                         if (isProduktOK == false && isAmountOkConvert == true && isIdOkConvert == true)
                         {
                             Console.WriteLine("Varan finns inte");
@@ -214,5 +229,4 @@ namespace Kassasystem
                 }
             }
         }
-    }
 }

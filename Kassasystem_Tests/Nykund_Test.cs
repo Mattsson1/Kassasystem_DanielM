@@ -4,15 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kassasystem
+namespace Kassasystem_Tests
 {
-    internal interface IReadProduct
+    internal class Nykund_Test
     {
-        public void ReadFile()
-        {
-
-        }
-
-
     }
 }
