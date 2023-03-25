@@ -46,8 +46,6 @@ namespace Kassasystem
                         
                         isProductFound = true;
 
-                        
-                        
                         File.WriteAllLines(produktPath,products);
                         break;
                     }

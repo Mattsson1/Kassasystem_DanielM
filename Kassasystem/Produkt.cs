@@ -17,8 +17,11 @@ namespace Kassasystem
         public int lopNummer { get; set; }
 
         public List<Produkt> produkter = new List<Produkt>();
-
-
+        /*override public string ToString()
+        {
+            return $"{ProduktID},{}";
+        }
+        */
     }
 
     public class ProduktAdd
