@@ -1,6 +1,6 @@
 ﻿namespace Kassasystem
 {
-    public class AdminConsoleApp
+    public partial class AdminConsoleApp
     {
 
         //Ändra
@@ -26,10 +26,11 @@
                         var deleteProduct = new DeleteProduct();
                         deleteProduct.Delete();
                         break;
+                    case 3:
+                        var updateProduct = new UpdateProduct();
+                        updateProduct.Update();
 
-
-                    
-
+                        break;
 
                 }
 

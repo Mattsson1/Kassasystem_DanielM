@@ -9,6 +9,7 @@ namespace Kassasystem
 {
     public class DeleteProduct
     {
+
         private string val;
         private bool isProductFound = false;
        
@@ -16,50 +17,55 @@ namespace Kassasystem
         {
             string produktPath = @".\Produkt.txt";
 
-            try
+            while (isProductFound == false)
             {
-                var nyKund = new NyKund();
-                List<Produkt> products = nyKund.ReadProductFile();
-                List<string> newList = File.ReadAllLines(produktPath).ToList();
-
-
-                Console.Clear();
-
-                Console.WriteLine("Ange ID för den produkt du vill ta bort");
-                foreach (var s in products)
+                try
                 {
-                    Console.Write($"{s.ProduktID}: ");
-                    Console.Write($"{s.ProduktNamn}\n");
+                    var productHelper = new ProductHelper();
+                    var nyKund = new NyKund();
+                    List<Produkt> products = productHelper.ReadProductFile();
+                    
+                    Console.Clear();
 
-                }
+                    Console.WriteLine("Ange ID för den produkt du vill ta bort");
 
-                val = Console.ReadLine();
-                foreach(var s in products)
-                {      
-                    if (val == s.ProduktID)
+                    productHelper.PrintProducts();
+                    
+                    val = Console.ReadLine();
+                    foreach (var s in products)
                     {
-                        products.Where(produkt => produkt.ProduktID == val).ToList().ForEach(produkt =>
+                        if (val == s.ProduktID)
                         {
-                            products.Remove(produkt);
-                        });
                             
-                        
-                        isProductFound = true;
 
-                        File.WriteAllLines(produktPath,products);
-                        break;
+                            products.Where(produkt => produkt.ProduktID == val).ToList().ForEach(produkt =>
+                            {
+                                products.Remove(produkt);
+                            });
+
+                            isProductFound = true;
+
+                            List<string> produktStrings = productHelper.ConvertToListString(products);
+
+                            //List<string> produktStrings = products.Select(s => $"{s.ProduktID}.{s.ProduktNamn}.{s.Pris}.{s.Enhet}").ToList();
+
+                            File.WriteAllLines(produktPath, produktStrings);
+
+                            Console.WriteLine($"{s.ProduktNamn} Bortagen från kassan");
+                            break;
+                        }
                     }
-                }
-                if(isProductFound == false)
-                {
-                    Console.WriteLine("Finns inget ID som matchar");
-                }
+                    if (isProductFound == false)
+                    {
+                        Console.WriteLine("Finns inget ID som matchar");
+                    }
 
-                Console.ReadKey();
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine($"Ogiltig inmatnig {ex}");
+                    Console.ReadKey();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ogiltig inmatnig {ex}");
+                }
             }
         }
 
