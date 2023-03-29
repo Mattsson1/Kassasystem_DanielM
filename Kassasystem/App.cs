@@ -7,7 +7,8 @@
             
             
             Console.Clear();
-            var nyKund = new Program.NyKund();
+            var nyKund = new NyKund();
+            var adminApp = new AdminConsoleApp();
             var admin = new AdminConsoleApp();
 
             int val;
@@ -32,7 +33,7 @@
                             isSelectionOk = true;
                             break;
                         case 3:
-                            
+                            adminApp.Admin();
                             break;
                         default:
                             Console.WriteLine("Ogiltigt val");
