@@ -12,11 +12,12 @@ namespace Kassasystem
         public DateTime now = DateTime.Now;
         public string ProduktID { get; set; }
         public string ProduktNamn { get; set; }
-        public string Pris { get; set; }
+        public string BasePrice { get; set; }
         public string Enhet { get; set; }
         public int lopNummer { get; set; }
+        //public List<Campaign> campaigns { get; set; } 
 
-        public List<Produkt> produkter = new List<Produkt>();
+        //public List<Produkt> produkter = new List<Produkt>();
         /*override public string ToString()
         {
             return $"{ProduktID},{}";

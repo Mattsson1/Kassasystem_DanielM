@@ -4,7 +4,7 @@
     {
         private string productID;
         private string[] products;
-
+        private string folder = @".\Kvitton\";
         private string vara, ID, amount;
         private int varor = 0;
 
@@ -40,7 +40,7 @@
 
             //FIXA ROOT PATH
             string receiptPath = @$".\Kvitton\RECEIPT_{dagensDatumStr}.txt";
-            string folder = @".\Kvitton\";
+            
 
             var produkt = new Produkt();
             var productHelper = new ProductHelper();
@@ -108,13 +108,13 @@
                             if (varor == 1)
                             {
                                 //Convert.ToDouble(p.Pris)
-                                kvittoLista.Add($"KVITTO    {p.now} \n{p.ProduktNamn} {amount} *{p.Pris}{p.Enhet} = {convertedID * convertedAmount}");
+                                kvittoLista.Add($"KVITTO    {p.now} \n{p.ProduktNamn} {amount} *{p.BasePrice}{p.Enhet} = {convertedID * convertedAmount}");
                                 totalSumma += convertedID * convertedAmount;
 
                             }
                             else
                             {
-                                kvittoLista.Add($"{p.ProduktNamn} {amount} *{p.Pris}{p.Enhet} = {convertedID * convertedAmount}");
+                                kvittoLista.Add($"{p.ProduktNamn} {amount} *{p.BasePrice}{p.Enhet} = {convertedID * convertedAmount}");
                                 totalSumma += convertedID * convertedAmount;
 
                             }

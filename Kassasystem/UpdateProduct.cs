@@ -41,9 +41,9 @@
                                 {
                                     Console.WriteLine("Vilken pris-enhet ska produkten ha?");
                                     string newUnit = Console.ReadLine();
-                                    Console.WriteLine($"Vad ska produkten ändra pris till? Nuvarande pris är {s.Pris}");
+                                    Console.WriteLine($"Vad ska produkten ändra pris till? Nuvarande pris är {s.BasePrice}");
                                     string newPrice = Console.ReadLine();
-                                    s.Pris = newPrice.Replace(".",",");
+                                    s.BasePrice = newPrice.Replace(".",",");
                                     s.Enhet = newUnit;
 
                                 }

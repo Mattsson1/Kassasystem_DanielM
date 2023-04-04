@@ -12,7 +12,8 @@
             Console.WriteLine("1. Lägg till produkt");
             Console.WriteLine("2. Ta bort produkt");
             Console.WriteLine("3. Ändra befintlig produkt ");
-            
+            Console.WriteLine("4. Adminstera kampanjer");
+
             if (int.TryParse(Console.ReadLine(), out val))
             {
                 switch (val)
@@ -29,9 +30,11 @@
                     case 3:
                         var updateProduct = new UpdateProduct();
                         updateProduct.Update();
-
                         break;
-
+                    case 4:
+                        var campaignManager = new CampaignManager();
+                        campaignManager.CampaignSelect();
+                        break;
                 }
 
             }
@@ -40,5 +43,6 @@
                 Console.WriteLine("Ogiltig inmatning");
             }
         }
+
     }
 }
