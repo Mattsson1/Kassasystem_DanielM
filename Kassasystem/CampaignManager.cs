@@ -7,8 +7,8 @@ namespace Kassasystem
         public class CampaignManager
         {
 
-            public List<string> campaignString = new List<string>();
-            private List<string> strings = new List<string>();
+
+            private List<string> campaignListString = new List<string>();
             private List<Campaign> campaignObject = new List<Campaign>();
             private string idInput;
             private int val;
@@ -80,29 +80,22 @@ namespace Kassasystem
                 {
                     if (idInput == prod.ProduktID)
                     {
-
                         Console.WriteLine("Ska kampanjen vara i procent eller vill du ändra hela priset?");
                         Console.WriteLine("1. Procent");
                         Console.WriteLine("2. KR");
                         double intBasePrice = Convert.ToDouble(prod.BasePrice);
                         UpdatePrice(intBasePrice);
 
-
-
                         DateTimeInputHandler();
 
-                        Campaign campaign = new Campaign(prod.ProduktID, newPrice, campaignStartDate, campaignEndDate);
-
+                        Campaign campaign = new Campaign(prod.ProduktID,prod.ProduktNamn, newPrice, campaignStartDate, campaignEndDate);
                         
                         campaignObject.Add(campaign);
-                        
-
+                        campaignListString = campaignObject.Select(obj => $"ID:{obj.CampaignID} KAMPANJ VARA: {obj.CampaignProductName} NYA PRISET: {obj.NewPrice} KAMPANJ START: {obj.CampaignStart.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {obj.CampaignEnd.ToString("yyyy-MM-dd")}").ToList();
 
                         WriteCampaignsToTextFile();
                     }
-                }
-
-              
+                }              
 
 
                 //produkt.campaigns.Add();
@@ -110,17 +103,16 @@ namespace Kassasystem
             }
 
             private void WriteCampaignsToTextFile()
-            {
-                
+            {              
 
 
                 if (!File.Exists(filePath))
                 {
-                    File.WriteAllLines(filePath,strings);
+                    File.WriteAllLines(filePath, campaignListString);
                 }
                 else
                 {
-                    File.AppendAllLines(filePath, strings);
+                    File.AppendAllLines(filePath, campaignListString);
                 }
             }
 

@@ -90,7 +90,6 @@
                         Console.ReadKey();
                     }
 
-
                     foreach (var p in produkter)
                     {
                         if (p.ProduktID == ID)
