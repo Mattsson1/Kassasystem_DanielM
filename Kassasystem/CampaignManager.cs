@@ -76,14 +76,26 @@ namespace Kassasystem
 
             private void RemoveCampaign()
             {
+
                 Console.WriteLine("Skriv in ID på den du vill ta bort");
                 PrintAllCampaigns();
                 string idInputRemove = Console.ReadLine();
-                var updatedCampaignListString = campaignListString.Where(obj => obj == idInputRemove).ToList();
+
+                foreach(var p in campaignObject)
+                {
+                    if(p.ProductID == idInputRemove)
+                    {
+                        campaignObject.RemoveAll(product => idInputRemove.Contains(p.ProductID));
 
 
+                    }
+                }
 
                 
+
+
+
+
 
 
             }

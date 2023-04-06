@@ -46,22 +46,6 @@ namespace Kassasystem
                             Console.WriteLine($"{s.ProduktNamn} Bortagen från kassan");
                             break;
 
-                            /*products.Where(produkt => produkt.ProduktID == val).ToList().ForEach(produkt =>
-                            {
-                                products.Remove(produkt);
-                            });
-
-                            
-
-                            
-
-                            //List<string> produktStrings = products.Select(s => $"{s.ProduktID}.{s.ProduktNamn}.{s.Pris}.{s.Enhet}").ToList();
-
-                            
-
-                            
-                            
-                            */
                         }
                     }
                     if (isProductFound == false)
