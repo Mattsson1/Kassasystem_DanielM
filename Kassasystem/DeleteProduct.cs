@@ -36,23 +36,32 @@ namespace Kassasystem
                     {
                         if (val == s.ProduktID)
                         {
-                            
+                            isProductFound = true;
 
-                            products.Where(produkt => produkt.ProduktID == val).ToList().ForEach(produkt =>
+                            products.RemoveAll(product => val.Contains(product.ProduktID));
+
+                            List<string> produktStrings = productHelper.ConvertToListString(products);
+
+                            File.WriteAllLines(produktPath, produktStrings);
+                            Console.WriteLine($"{s.ProduktNamn} Bortagen från kassan");
+                            break;
+
+                            /*products.Where(produkt => produkt.ProduktID == val).ToList().ForEach(produkt =>
                             {
                                 products.Remove(produkt);
                             });
 
-                            isProductFound = true;
+                            
 
-                            List<string> produktStrings = productHelper.ConvertToListString(products);
+                            
 
                             //List<string> produktStrings = products.Select(s => $"{s.ProduktID}.{s.ProduktNamn}.{s.Pris}.{s.Enhet}").ToList();
 
-                            File.WriteAllLines(produktPath, produktStrings);
+                            
 
-                            Console.WriteLine($"{s.ProduktNamn} Bortagen från kassan");
-                            break;
+                            
+                            
+                            */
                         }
                     }
                     if (isProductFound == false)

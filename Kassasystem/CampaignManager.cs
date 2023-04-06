@@ -7,7 +7,7 @@ namespace Kassasystem
         public class CampaignManager
         {
 
-
+            private List<string> campaignsInString = new List<string>();
             private List<string> campaignListString = new List<string>();
             private List<Campaign> campaignObject = new List<Campaign>();
             private string idInput;
@@ -21,6 +21,7 @@ namespace Kassasystem
                 Console.WriteLine("1. Lägg till Kampanj");
                 Console.WriteLine("2. Ta bort Kampanj");
                 Console.WriteLine("3. Redigera Kampanj");
+                Console.WriteLine("4. Visa alla kampanjer");
 
                 if (int.TryParse(Console.ReadLine(), out val))
                 {
@@ -35,6 +36,9 @@ namespace Kassasystem
                         case 3:
                             EditCampaign();
                             break;
+                        case 4:
+                            PrintAllCampaigns();
+                            break;
                         default:
                             Console.WriteLine("Ogiltigt val");
                             Console.ReadKey();
@@ -46,6 +50,17 @@ namespace Kassasystem
                     Console.WriteLine("Ogiltig inmatning");
                     Console.ReadKey();
                 }
+            }
+
+            private List<string> PrintAllCampaigns()
+            {
+                campaignListString = File.ReadAllLines(filePath).ToList();
+                foreach(var s in campaignListString)
+                {
+                    Console.WriteLine(s);
+                }
+                Console.ReadKey();
+                return campaignListString;
             }
 
             private void EditCampaign()
@@ -61,7 +76,16 @@ namespace Kassasystem
 
             private void RemoveCampaign()
             {
-                throw new NotImplementedException();
+                Console.WriteLine("Skriv in ID på den du vill ta bort");
+                PrintAllCampaigns();
+                string idInputRemove = Console.ReadLine();
+                var updatedCampaignListString = campaignListString.Where(obj => obj == idInputRemove).ToList();
+
+
+
+                
+
+
             }
 
             private void AddCampagin()
@@ -85,13 +109,13 @@ namespace Kassasystem
                         Console.WriteLine("2. KR");
                         double intBasePrice = Convert.ToDouble(prod.BasePrice);
                         UpdatePrice(intBasePrice);
-
+                        
                         DateTimeInputHandler();
 
                         Campaign campaign = new Campaign(prod.ProduktID,prod.ProduktNamn, newPrice, campaignStartDate, campaignEndDate);
                         
                         campaignObject.Add(campaign);
-                        campaignListString = campaignObject.Select(obj => $"ID:{obj.CampaignID} KAMPANJ VARA: {obj.CampaignProductName} NYA PRISET: {obj.NewPrice} KAMPANJ START: {obj.CampaignStart.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {obj.CampaignEnd.ToString("yyyy-MM-dd")}").ToList();
+                        campaignListString = campaignObject.Select(obj => $"ID:{obj.ProductID} KAMPANJ VARA: {obj.CampaignProductName} NYA PRISET: {obj.NewPrice} KAMPANJ START: {obj.CampaignStart.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {obj.CampaignEnd.ToString("yyyy-MM-dd")}").ToList();
 
                         WriteCampaignsToTextFile();
                     }
@@ -104,8 +128,6 @@ namespace Kassasystem
 
             private void WriteCampaignsToTextFile()
             {              
-
-
                 if (!File.Exists(filePath))
                 {
                     File.WriteAllLines(filePath, campaignListString);
