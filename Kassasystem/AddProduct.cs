@@ -98,13 +98,15 @@
 
                     File.AppendAllLines(produktPath, produktAdds);
 
+                    Console.WriteLine($"Produkt {ProduktNamn} tillagd!");
+
                     okProdukt = true;
 
                     Console.ReadKey();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Console.WriteLine($"{ex} Ogiltig inmatning");
+                    Console.WriteLine($"Ogiltig inmatning");
                     Console.ReadKey();
                 }
             }

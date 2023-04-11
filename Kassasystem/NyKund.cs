@@ -26,8 +26,6 @@
         }
        
        
-
-
         public void NewCustomer()
         {
             Console.Clear();
@@ -40,6 +38,8 @@
 
             //FIXA ROOT PATH
             string receiptPath = @$".\Kvitton\RECEIPT_{dagensDatumStr}.txt";
+
+            var findCampaign = new CheckIfCampaginIsActiveOnProduct();
             
 
             var produkt = new Produkt();
@@ -94,6 +94,8 @@
                     {
                         if (p.ProduktID == ID)
                         {
+                           
+                            findCampaign.FindCampaign(ID);
 
                             //kvittoLista.Add($"***************KASSA-KVITTO*****************");
                             if (isAmountOkConvert == false)
