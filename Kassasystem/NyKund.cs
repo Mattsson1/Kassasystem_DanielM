@@ -95,7 +95,7 @@
                         if (p.ProduktID == ID)
                         {
                            
-                            findCampaign.FindCampaign(ID);
+                            var price = findCampaign.FindCampaign(ID);
 
                             //kvittoLista.Add($"***************KASSA-KVITTO*****************");
                             if (isAmountOkConvert == false)
@@ -109,7 +109,7 @@
                             if (varor == 1)
                             {
                                 //Convert.ToDouble(p.Pris)
-                                kvittoLista.Add($"KVITTO    {p.now} \n{p.ProduktNamn} {amount} *{p.BasePrice}{p.Enhet} = {convertedID * convertedAmount}");
+                                kvittoLista.Add($"KVITTO    {p.now} \n{p.ProduktNamn} {amount} *{price}{p.Enhet} = {convertedID * convertedAmount}");
                                 totalSumma += convertedID * convertedAmount;
 
                             }

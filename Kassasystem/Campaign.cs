@@ -11,12 +11,12 @@ namespace Kassasystem
         
         public string ProductID { get; set; }
         public string CampaignProductName { get; set; }
-        public double NewPrice { get; set; }
-        public DateTime CampaignStart { get; set; }
-        public DateTime CampaignEnd { get; set; }
+        public string NewPrice { get; set; }
+        public string CampaignStart { get; set; }
+        public string CampaignEnd { get; set; }
 
    
-        public Campaign(string productId, string campaignProductName, double newPrice, DateTime campaignStart, DateTime campaignEnd)
+        /*public Campaign(string productId, string campaignProductName, double newPrice, DateTime campaignStart, DateTime campaignEnd)
         {
             ProductID = productId;
             //CampaignID = campaignId;
@@ -25,5 +25,11 @@ namespace Kassasystem
             CampaignStart = campaignStart;
             CampaignEnd = campaignEnd;
         }
+        */
     }
+
+
+
+
+
 }

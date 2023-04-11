@@ -109,6 +109,9 @@
             var produkt = new Produkt();
             var productHelper = new ProductHelper();
 
+            Console.WriteLine("Vad ska kampanjen heta?");
+            string campaignInput = Console.ReadLine();
+
             Console.WriteLine("Vilken produkt vill du det ska gälla på?");
             productHelper.PrintProducts();
 
@@ -123,14 +126,18 @@
                     Console.WriteLine("1. Procent");
                     Console.WriteLine("2. KR");
                     double intBasePrice = Convert.ToDouble(prod.BasePrice);
-                    UpdatePrice(intBasePrice);
+                    var newPrice = UpdatePrice(intBasePrice);
+                    
 
-                    DateTimeInputHandler();
+                    var startAndEndDate = DateTimeInputHandler();
+                    var startdate = startAndEndDate.Item1;
+                    var endDate = startAndEndDate.Item2;
 
-                    Campaign campaign = new Campaign(prod.ProduktID, prod.ProduktNamn, newPrice, campaignStartDate, campaignEndDate);
+                    Campaign campaign = new Campaign();
 
                     campaignObject.Add(campaign);
-                    campaignListString = campaignObject.Select(obj => $"ID:{obj.ProductID} KAMPANJ VARA: {obj.CampaignProductName} NYA PRISET: {obj.NewPrice} KAMPANJ START: {obj.CampaignStart.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {obj.CampaignEnd.ToString("yyyy-MM-dd")}").ToList();
+                    campaignListString.Add($"ID:{idInput} KAMPANJ VARA: {campaignInput} NYA PRISET: {newPrice} KAMPANJ START: {startdate.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {endDate.ToString("yyyy-MM-dd")}");
+                    //campaignListString = campaignObject.Select(obj => $"ID:{obj.ProductID} KAMPANJ VARA: {obj.CampaignProductName} NYA PRISET: {obj.NewPrice} KAMPANJ START: {obj.CampaignStart.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {obj.CampaignEnd.ToString("yyyy-MM-dd")}").ToList();
 
                     WriteCampaignsToTextFile();
                 }

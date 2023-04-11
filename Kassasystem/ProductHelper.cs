@@ -5,7 +5,7 @@ namespace Kassasystem
     public class ProductHelper
     {
         private string produktPath = @".\Produkt.txt";
-        private string campaignPath = @".\Kampanjer.txt";
+        private string campaignPath = @".\Kampanjer";
 
         public void PrintProducts()
         {
@@ -45,20 +45,31 @@ namespace Kassasystem
         }
 
         public List<Campaign> ReadCampaignFile()
-        {
+        {           
+            
             var campaigns = new List<Campaign>();
 
-            List<string> textCampaignList = File.ReadAllLines("campaignPath").ToList();
+            List<string> textCampaignList = File.ReadAllLines(campaignPath).ToList();
 
-            foreach (var campaign in textCampaignList)
+            foreach (var camp in textCampaignList)
             {
-                string[] campaignArray = campaign.Split(":");
+                var campaign = new Campaign();
+                //var stringPrice = Convert.ToString(campaign.NewPrice);
+                //var dateStart = Convert.ToString(campaign.CampaignStart);
+                //var dateEnd = Convert.ToString(campaign.CampaignEnd);
+
+
+                string[] campaignArray = camp.Split(":");
+
+                campaign.ProductID = campaignArray[0];
+                campaign.CampaignProductName = campaignArray[1];
+                campaign.NewPrice = campaignArray[2];
+                campaign.CampaignStart = campaignArray[3];
+                campaign.CampaignEnd = campaignArray[4];
+
+                campaigns.Add(campaign);
             }
-
-
-
-
-            
+                        
             return campaigns;
         }
 

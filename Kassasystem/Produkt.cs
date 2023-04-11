@@ -25,6 +25,7 @@ namespace Kassasystem
         */
     }
 
+    /*
     public class ProduktAdd
     {
         public string ProduktID { get; set; }
@@ -46,5 +47,5 @@ namespace Kassasystem
 
 
     }
-    
+    */
 }
