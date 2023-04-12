@@ -84,6 +84,7 @@
 
                     bool isAmountOkConvert = Double.TryParse(amount, out double convertedAmount);
                     bool isIdOkConvert = Double.TryParse(ID, out double convertedID);
+                    
                     if (isIdOkConvert == false)
                     {
                         Console.WriteLine("ProduktID måste vara en siffra!");
@@ -94,8 +95,9 @@
                     {
                         if (p.ProduktID == ID)
                         {
-                           
+                            
                             var price = findCampaign.FindCampaign(ID);
+                            bool isPriceOkConvert = Double.TryParse(price, out double convertedPrice);
 
                             //kvittoLista.Add($"***************KASSA-KVITTO*****************");
                             if (isAmountOkConvert == false)
@@ -109,14 +111,14 @@
                             if (varor == 1)
                             {
                                 //Convert.ToDouble(p.Pris)
-                                kvittoLista.Add($"KVITTO    {p.now} \n{p.ProduktNamn} {amount} *{price}{p.Enhet} = {convertedID * convertedAmount}");
-                                totalSumma += convertedID * convertedAmount;
+                                kvittoLista.Add($"KVITTO    {p.now} \n{p.ProduktNamn} {amount} *{price}{p.Enhet} = {convertedPrice * convertedAmount}");
+                                totalSumma += convertedPrice * convertedAmount;
 
                             }
                             else
                             {
-                                kvittoLista.Add($"{p.ProduktNamn} {amount} *{p.BasePrice}{p.Enhet} = {convertedID * convertedAmount}");
-                                totalSumma += convertedID * convertedAmount;
+                                kvittoLista.Add($"{p.ProduktNamn} {amount} *{price}{p.Enhet} = {convertedPrice * convertedAmount}");
+                                totalSumma += convertedPrice * convertedAmount;
 
                             }
                             isProduktOK = true;

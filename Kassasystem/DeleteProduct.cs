@@ -33,7 +33,7 @@
 
                             products.RemoveAll(product => val.Contains(product.ProduktID));
 
-                            List<string> produktStrings = productHelper.ConvertToListString(products);
+                            List<string> produktStrings = productHelper.ConvertProductToListString(products);
 
                             File.WriteAllLines(produktPath, produktStrings);
                             Console.WriteLine($"{s.ProduktNamn} Bortagen från kassan");

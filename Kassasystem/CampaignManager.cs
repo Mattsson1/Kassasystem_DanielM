@@ -6,7 +6,7 @@
         private List<string> campaignsInString = new List<string>();
         private List<string> campaignListString = new List<string>();
         private List<Campaign> campaignObject = new List<Campaign>();
-        private string idInput;
+        private string idInput, campaignNameInput;
         private int val;
         private double newPrice;
         private DateTime campaignStartDate, campaignEndDate;
@@ -90,15 +90,25 @@
 
         private void RemoveCampaign()
         {
-            Console.WriteLine("Skriv in ID på den du vill ta bort");
             PrintAllCampaigns();
-            string idInputRemove = Console.ReadLine();
+            Console.WriteLine("Skriv in kampanj-namnet på den du vill ta bort");
+            
+            campaignNameInput = Console.ReadLine();
+            var produktHelp = new ProductHelper();
+            campaignObject = produktHelp.ReadCampaignFile();
 
             foreach (var p in campaignObject)
             {
-                if (p.ProductID == idInputRemove)
+                var correctName = p.CampaignProductName.Replace(" NYA PRISET", "");
+                if (correctName.Contains(campaignNameInput))
                 {
-                    campaignObject.RemoveAll(product => idInputRemove.Contains(p.ProductID));
+                    int index = campaignObject.FindIndex(c => c.CampaignProductName.Contains(campaignNameInput));
+
+                    campaignObject.RemoveAt(index);
+                    campaignListString = produktHelp.ConvertCampaignToListString(campaignObject);
+
+                    File.WriteAllLines(filePath, campaignListString);
+                    break;
                 }
             }
         }
@@ -136,7 +146,8 @@
                     Campaign campaign = new Campaign();
 
                     campaignObject.Add(campaign);
-                    campaignListString.Add($"ID:{idInput} KAMPANJ VARA: {campaignInput} NYA PRISET: {newPrice} KAMPANJ START: {startdate.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {endDate.ToString("yyyy-MM-dd")}");
+                    
+                    campaignListString.Add($"ID [{idInput}]. KAMPANJ VARA: {campaignInput} NYA PRISET: {newPrice} KAMPANJ START: {startdate.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {endDate.ToString("yyyy-MM-dd")}");
                     //campaignListString = campaignObject.Select(obj => $"ID:{obj.ProductID} KAMPANJ VARA: {obj.CampaignProductName} NYA PRISET: {obj.NewPrice} KAMPANJ START: {obj.CampaignStart.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {obj.CampaignEnd.ToString("yyyy-MM-dd")}").ToList();
 
                     WriteCampaignsToTextFile();
@@ -205,5 +216,4 @@
             }
         }
     }
-
 }

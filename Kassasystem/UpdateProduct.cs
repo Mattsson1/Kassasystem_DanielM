@@ -57,7 +57,7 @@
                                         isExiting = true;
                                         break;
                                     }
-                                    List<string> produktStrings = productHelper.ConvertToListString(produkts);
+                                    List<string> produktStrings = productHelper.ConvertProductToListString(produkts);
                                     File.WriteAllLines(produktPath, produktStrings);
                                 }
                                 else

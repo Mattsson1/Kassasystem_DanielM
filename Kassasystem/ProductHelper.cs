@@ -74,13 +74,17 @@ namespace Kassasystem
         }
 
 
-        public List<string> ConvertToListString(List<Produkt> products)
+        public List<string> ConvertProductToListString(List<Produkt> products)
         {
             List<string> produktStrings = products.Select(s => $"{s.ProduktID}.{s.ProduktNamn}.{s.BasePrice}.{s.Enhet}").ToList();
             return produktStrings;
         }
 
-
+        public List<string> ConvertCampaignToListString(List<Campaign> campaigns)
+        {
+            List<string> campaignStrings = campaigns.Select(c => $"{c.ProductID}:{c.CampaignProductName}:{c.NewPrice}:{c.CampaignStart}:{c.CampaignEnd}").ToList();
+            return campaignStrings;
+        }   
 
 
     }
