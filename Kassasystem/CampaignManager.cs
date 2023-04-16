@@ -1,24 +1,25 @@
 ﻿namespace Kassasystem
 {
-
     public class CampaignManager
     {
-        private List<string> campaignsInString = new List<string>();
+        public ProductHelper productHelper = new ProductHelper();
         private List<string> campaignListString = new List<string>();
         private List<Campaign> campaignObject = new List<Campaign>();
+
         private string idInput, campaignNameInput;
+        private string filePath = @".\Kampanjer";
+        private bool isCampaignFound = false;
         private int val;
         private double newPrice;
         private DateTime campaignStartDate, campaignEndDate;
 
-        private string filePath = @".\Kampanjer";
+
         public void CampaignSelect()
         {
             Console.WriteLine("1. Lägg till Kampanj");
             Console.WriteLine("2. Ta bort Kampanj");
-            Console.WriteLine("3. Redigera Kampanj");
-            Console.WriteLine("4. Visa alla kampanjer");
-            Console.WriteLine("5. Tillbaka till menyn");
+            Console.WriteLine("3. Visa alla kampanjer");
+            Console.WriteLine("4. Tillbaka till menyn");
             if (int.TryParse(Console.ReadLine(), out val))
             {
                 switch (val)
@@ -30,14 +31,11 @@
                         RemoveCampaign();
                         break;
                     case 3:
-                        EditCampaign();
-                        break;
-                    case 4:
                         PrintAllCampaigns();
                         break;
-                    case 5:
-                        
+                    case 4:
                         break;
+
                     default:
                         Console.WriteLine("Ogiltigt val");
                         Console.ReadKey();
@@ -54,73 +52,61 @@
         private List<string> PrintAllCampaigns()
         {
             campaignListString = File.ReadAllLines(filePath).ToList();
+
             foreach (var s in campaignListString)
             {
-                Console.WriteLine(s);
+                Console.WriteLine(s, Console.ForegroundColor = ConsoleColor.Red);
             }
-            Console.ReadKey();
+            Console.ForegroundColor = ConsoleColor.White;
             return campaignListString;
         }
 
-        private void EditCampaign()
-        {
-            var produkt = new Produkt();
-            var productHelper = new ProductHelper();
-
-            List<Produkt> ExistingProducts = productHelper.ReadProductFile();
-            productHelper.PrintProducts();
-
-            Console.WriteLine("Skriv in ID på produkt du vill redigera");
-            string idInput = Console.ReadLine();
-
-            foreach (var produktObjekt in ExistingProducts)
-            {
-                if (idInput == produktObjekt.ProduktID)
-                {
-
-
-                }
-            }
-
-            foreach (var prod in ExistingProducts)
-            {
-                DateTimeInputHandler();
-            }
-        }
 
         private void RemoveCampaign()
         {
-            PrintAllCampaigns();
-            Console.WriteLine("Skriv in kampanj-namnet på den du vill ta bort");
-            
-            campaignNameInput = Console.ReadLine();
-            var produktHelp = new ProductHelper();
-            campaignObject = produktHelp.ReadCampaignFile();
 
-            foreach (var p in campaignObject)
+            while (isCampaignFound == false)
             {
-                var correctName = p.CampaignProductName.Replace(" NYA PRISET", "");
-                if (correctName.Contains(campaignNameInput))
+                Console.Clear();
+                Console.WriteLine("Skriv in kampanj-namnet på den du vill ta bort");
+                Console.WriteLine("Skriv EXIT för att återgå till meny");
+                PrintAllCampaigns();
+
+
+                campaignNameInput = Console.ReadLine();
+                if (campaignNameInput.ToLower() == "exit") { isCampaignFound = true; break; }
+
+                campaignObject = productHelper.ReadCampaignFile();
+
+                foreach (var p in campaignObject)
                 {
-                    int index = campaignObject.FindIndex(c => c.CampaignProductName.Contains(campaignNameInput));
+                    var correctName = p.CampaignProductName.Replace(" NYA PRISET", "");
+                    if (correctName.Contains(campaignNameInput))
+                    {
+                        isCampaignFound = true;
+                        int index = campaignObject.FindIndex(c => c.CampaignProductName.Contains(campaignNameInput));
 
-                    campaignObject.RemoveAt(index);
-                    campaignListString = produktHelp.ConvertCampaignToListString(campaignObject);
+                        campaignObject.RemoveAt(index);
+                        campaignListString = productHelper.ConvertCampaignToListString(campaignObject);
 
-                    File.WriteAllLines(filePath, campaignListString);
-                    break;
+                        File.WriteAllLines(filePath, campaignListString);
+                        break;
+                    }
+                }
+                if (isCampaignFound == false)
+                {
+                    Console.WriteLine("Hittade ingen kampanj med det angivna namnet. Testa igen ");
+                    Console.ReadKey();
                 }
             }
         }
 
         private void AddCampagin()
         {
-
             var produkt = new Produkt();
-            var productHelper = new ProductHelper();
 
             Console.WriteLine("Vad ska kampanjen heta?");
-            string campaignInput = Console.ReadLine();
+            campaignNameInput = Console.ReadLine();
 
             Console.WriteLine("Vilken produkt vill du det ska gälla på?");
             productHelper.PrintProducts();
@@ -137,7 +123,6 @@
                     Console.WriteLine("2. KR");
                     double intBasePrice = Convert.ToDouble(prod.BasePrice);
                     var newPrice = UpdatePrice(intBasePrice);
-                    
 
                     var startAndEndDate = DateTimeInputHandler();
                     var startdate = startAndEndDate.Item1;
@@ -146,17 +131,12 @@
                     Campaign campaign = new Campaign();
 
                     campaignObject.Add(campaign);
-                    
-                    campaignListString.Add($"ID [{idInput}]. KAMPANJ VARA: {campaignInput} NYA PRISET: {newPrice} KAMPANJ START: {startdate.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {endDate.ToString("yyyy-MM-dd")}");
-                    //campaignListString = campaignObject.Select(obj => $"ID:{obj.ProductID} KAMPANJ VARA: {obj.CampaignProductName} NYA PRISET: {obj.NewPrice} KAMPANJ START: {obj.CampaignStart.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {obj.CampaignEnd.ToString("yyyy-MM-dd")}").ToList();
+                    campaignListString.Add($"ID [{idInput}]. KAMPANJ VARA: {campaignNameInput} NYA PRISET: {newPrice}" +
+                    $" KAMPANJ START: {startdate.ToString("yyyy-MM-dd")} KAMPANJ SLUT: {endDate.ToString("yyyy-MM-dd")}");
 
                     WriteCampaignsToTextFile();
                 }
             }
-
-
-            //produkt.campaigns.Add();
-            //produkt.date = new DateTime();
         }
 
         private void WriteCampaignsToTextFile()
@@ -175,6 +155,7 @@
         {
             while (true)
             {
+
                 string unit = Console.ReadLine();
                 if (unit == "1" || unit == "%")
                 {
@@ -201,7 +182,6 @@
         private (DateTime, DateTime) DateTimeInputHandler()
         {
             Console.WriteLine("När ska kampanjen börja gälla?");
-
             while (true)
             {
                 if (DateTime.TryParse(Console.ReadLine(), out campaignStartDate))

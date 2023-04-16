@@ -86,6 +86,5 @@ namespace Kassasystem
             return campaignStrings;
         }   
 
-
     }
 }

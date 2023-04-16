@@ -2,19 +2,14 @@
 {
     public class CheckIfCampaginIsActiveOnProduct
     {
-        private string filePath = @".\Kampanjer";
+        private bool isCampaignFound = false;
 
-        public string FindCampaign(string ID)
+        public string FindCampaign(string ID, string basePrice)
         {
-            var produkt = new Produkt();
             var produktHelper = new ProductHelper();
-            var campaignManagment = new CampaignManager();
-
-            string updatedPrice = "";
-
-            var products = produktHelper.ReadProductFile();
             var campaignList = produktHelper.ReadCampaignFile();
 
+            string updatedPrice = "";                       
 
             foreach (var s in campaignList)
             {
@@ -30,12 +25,16 @@
                     {
                         var newPrice = Convert.ToString(s.NewPrice).Replace(" KAMPANJ START", "");
                         updatedPrice = newPrice;
+                        isCampaignFound = true;
                         break;
                     }
 
                 }
             }
-
+            if(isCampaignFound == false)
+            {
+                updatedPrice = basePrice;
+            }
 
             return updatedPrice;
         }

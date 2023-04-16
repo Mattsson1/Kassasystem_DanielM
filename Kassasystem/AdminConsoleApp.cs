@@ -2,9 +2,6 @@
 {
     public partial class AdminConsoleApp
     {
-
-        //Ändra
-        //Lägga Till
         private int val;
 
         public void Admin()

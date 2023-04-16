@@ -2,7 +2,6 @@
 {
     public class DeleteProduct
     {
-
         private string val;
         private bool isProductFound = false;
 
@@ -15,11 +14,10 @@
                 try
                 {
                     var productHelper = new ProductHelper();
-                    var nyKund = new NyKund();
+                    var nyKund = new CashRegister();
                     List<Produkt> products = productHelper.ReadProductFile();
 
                     Console.Clear();
-
                     Console.WriteLine("Ange ID för den produkt du vill ta bort");
 
                     productHelper.PrintProducts();
