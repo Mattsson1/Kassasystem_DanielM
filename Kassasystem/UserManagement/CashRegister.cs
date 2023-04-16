@@ -1,4 +1,5 @@
-﻿
+﻿using Kassasystem.Models;
+
 namespace Kassasystem
 {
     public class CashRegister
@@ -10,7 +11,7 @@ namespace Kassasystem
         private string cashRegisterInput;
         private string[] productsArray;
         private string folder = @".\Kvitton\";
-        private string product, ID, amount,price;
+        private string product, ID, amount, price;
         private int amountOfProducts = 0;
 
         private List<Produkt> produkter;
@@ -24,7 +25,7 @@ namespace Kassasystem
 
         public void NewCustomer()
         {
-            ResetValues();            
+            ResetValues();
 
             Console.Clear();
             isPaying = false;
@@ -61,8 +62,8 @@ namespace Kassasystem
                         amount = productsArray[1];
                     }
 
-                    isAmountOkConvert = Double.TryParse(amount, out double convertedAmount);
-                    isIdOkConvert = Double.TryParse(ID, out double convertedID);
+                    isAmountOkConvert = double.TryParse(amount, out double convertedAmount);
+                    isIdOkConvert = double.TryParse(ID, out double convertedID);
 
                     if (isAmountOkConvert == false)
                     {
@@ -141,7 +142,7 @@ namespace Kassasystem
             }
             if (!File.Exists(receiptPath))
             {
-                File.WriteAllLines(receiptPath, kvittoLista);                
+                File.WriteAllLines(receiptPath, kvittoLista);
 
                 foreach (var file in Directory.EnumerateFiles(folder))
                 {
@@ -159,7 +160,7 @@ namespace Kassasystem
                 File.WriteAllLines(receiptPath, kvittoLista);
             }
             else
-            {                
+            {
                 foreach (var file in Directory.EnumerateFiles(folder))
 
                 {
@@ -174,7 +175,7 @@ namespace Kassasystem
                 }
                 kvittoLista.Add($"--------------KVITTO-NUMMER: {produkt.lopNummer}--------------\n");
                 File.AppendAllLines(receiptPath, kvittoLista);
-            }            
+            }
         }
 
         private void ProductInput()
@@ -200,7 +201,7 @@ namespace Kassasystem
                 if (p.ProduktID == ID)
                 {
                     price = findCampaign.FindCampaign(ID, p.BasePrice);
-                    bool isPriceOkConvert = Double.TryParse(price, out convertedPrice);//FIXA KONVERTERINGEN
+                    bool isPriceOkConvert = double.TryParse(price, out convertedPrice);//FIXA KONVERTERINGEN
 
                     amountOfProducts++;
                     if (amountOfProducts == 1)

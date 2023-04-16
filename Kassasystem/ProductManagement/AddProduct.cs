@@ -1,4 +1,7 @@
-﻿namespace Kassasystem
+﻿
+using Kassasystem.Models;
+
+namespace Kassasystem
 {
     public class AddProduct
     {
@@ -12,11 +15,11 @@
         private string produktPath = @".\Produkt.txt";
         private int val, idInput;
         private bool isIdOk, okProdukt, isUnitOk = false;
-        
+
         public void AdminCase1Add()
         {
-            produkts = productHelper.ReadProductFile(); 
-                       
+            produkts = productHelper.ReadProductFile();
+
             while (okProdukt == false)
             {
                 try
@@ -62,7 +65,7 @@
                     Console.WriteLine("Vilken Pris enhet vill du ha på produkten?");
                     Console.WriteLine("1. KR/ST");
                     Console.WriteLine("2. KR/KG");
-                                        
+
                     while (isUnitOk == false)
                     {
                         if (int.TryParse(Console.ReadLine(), out val))
@@ -82,7 +85,7 @@
                             else
                             {
                                 Console.WriteLine("Välj mellan de två alternativen");
-                            }                            
+                            }
                         }
                         else
                         {

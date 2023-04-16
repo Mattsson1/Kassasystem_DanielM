@@ -1,4 +1,6 @@
-﻿namespace Kassasystem
+﻿using Kassasystem.Models;
+
+namespace Kassasystem
 {
     public class DeleteProduct
     {

@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿
+using Kassasystem.Models;
 
 namespace Kassasystem
 {
@@ -20,7 +21,7 @@ namespace Kassasystem
         }
         public List<Produkt> ReadProductFile()
         {
-            
+
             if (!File.Exists(produktPath))
             {
                 File.Create(produktPath);
@@ -45,8 +46,8 @@ namespace Kassasystem
         }
 
         public List<Campaign> ReadCampaignFile()
-        {           
-            
+        {
+
             var campaigns = new List<Campaign>();
 
             List<string> textCampaignList = File.ReadAllLines(campaignPath).ToList();
@@ -69,7 +70,7 @@ namespace Kassasystem
 
                 campaigns.Add(campaign);
             }
-                        
+
             return campaigns;
         }
 
@@ -84,7 +85,7 @@ namespace Kassasystem
         {
             List<string> campaignStrings = campaigns.Select(c => $"{c.ProductID}:{c.CampaignProductName}:{c.NewPrice}:{c.CampaignStart}:{c.CampaignEnd}").ToList();
             return campaignStrings;
-        }   
+        }
 
     }
 }
