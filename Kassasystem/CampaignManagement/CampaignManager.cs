@@ -15,7 +15,6 @@ namespace Kassasystem
         private double newPrice;
         private DateTime campaignStartDate, campaignEndDate;
 
-
         public void CampaignSelect()
         {
             Console.WriteLine("1. Lägg till Kampanj");
@@ -73,7 +72,6 @@ namespace Kassasystem
                 Console.WriteLine("Skriv in kampanj-namnet på den du vill ta bort");
                 Console.WriteLine("Skriv EXIT för att återgå till meny");
                 PrintAllCampaigns();
-
 
                 campaignNameInput = Console.ReadLine();
                 if (campaignNameInput.ToLower() == "exit") { isCampaignFound = true; break; }
@@ -183,7 +181,7 @@ namespace Kassasystem
 
         private (DateTime, DateTime) DateTimeInputHandler()
         {
-            Console.WriteLine("När ska kampanjen börja gälla?");
+            Console.WriteLine("När ska kampanjen börja gälla? Fyll i YYYY-MM-DD");
             while (true)
             {
                 if (DateTime.TryParse(Console.ReadLine(), out campaignStartDate))
