@@ -17,85 +17,86 @@ namespace Kassasystem
         private List<string> kvittoLista = new List<string>();
         List<string> kvittoText = new List<string>();
 
-        private bool isPaying, isProductOK, isAmountOkConvert, isIdOkConvert = false;
-        private double moneyTotal = 0, convertedPrice;        
+        private bool isProductOK, isAmountOkConvert, isIdOkConvert = false;
+        private double moneyTotal = 0, convertedPrice;
 
         public void NewCustomer()
         {
             ResetValues();
 
             Console.Clear();
-            isPaying = false;
-            isProductOK = false;
-
             productHelper.ReadProductFile();
 
-            while (isPaying == false)
+
+            while (isProductOK == false)
             {
-                while (isProductOK == false)
-                {
-                    Console.BackgroundColor = ConsoleColor.Black;
-
-                    ProductInput();
-
-                    if (cashRegisterInput == "pay".ToLower())//CHECKOUT
-                    {
-                        isProductOK = true;
-                        break;
-                    }
-                    while (productsArray.Length < 1 || productsArray.Length > 2)//Fixa kommandon/text
-                    {
-                        Console.WriteLine("Du måste fylla i <produktid> och <antal>! ");
-                        ProductInput();
-                    }
-                    if (productsArray.Length != 2)
-                    {
-                        ID = productsArray[0];
-                        amount = "1";
-                    }
-                    else
-                    {
-                        ID = productsArray[0];
-                        amount = productsArray[1];
-                    }
-
-                    isAmountOkConvert = double.TryParse(amount, out double convertedAmount);
-                    isIdOkConvert = double.TryParse(ID, out double convertedID);
-
-                    if (isAmountOkConvert == false)
-                    {
-                        Console.WriteLine("Fyll i ett giltigt antal!");
-                        Console.ReadKey();
-                    }
-                    else if (isIdOkConvert == false)
-                    {
-                        Console.WriteLine("ProduktID måste vara en siffra!");
-                        Console.ReadKey();
-                    }
-                    if (isAmountOkConvert == true && isIdOkConvert == true)
-                    {
-                        LookForProduct(convertedAmount);
-                    }
-                    if (isProductOK == false && isAmountOkConvert == true && isIdOkConvert == true)
-                    {
-                        Console.WriteLine("Varan finns inte");
-                        Console.ReadKey();
-                    }
-
-
-                    PrintReceipt();
-                    isProductOK = false;
-                }
-                moneyTotalInString = Convert.ToString(moneyTotal);
-                kvittoLista.Add(moneyTotalInString);
-
-                WriteToTextFile();
-
                 Console.BackgroundColor = ConsoleColor.Black;
 
-                isPaying = true;
-                break;
+                ProductInput();
+
+                if (cashRegisterInput == "pay".ToLower())//CHECKOUT
+                {
+                    Paying();                    
+                    break;
+                }
+                if (cashRegisterInput.ToLower() == "exit")
+                {
+                    isProductOK = true;
+                    break;
+                }
+                while (productsArray.Length < 1 || productsArray.Length > 2)//Fixa kommandon/text
+                {
+                    Console.WriteLine("Du måste fylla i <produktid> och <antal>! ");
+                    ProductInput();
+                }
+                if (productsArray.Length != 2)
+                {
+                    ID = productsArray[0];
+                    amount = "1";
+                }
+                else
+                {
+                    ID = productsArray[0];
+                    amount = productsArray[1];
+                }
+
+                isAmountOkConvert = double.TryParse(amount, out double convertedAmount);
+                isIdOkConvert = double.TryParse(ID, out double convertedID);
+
+                if (isAmountOkConvert == false)
+                {
+                    Console.WriteLine("Fyll i ett giltigt antal!");
+                    Console.ReadKey();
+                }
+                else if (isIdOkConvert == false)
+                {
+                    Console.WriteLine("ProduktID måste vara en siffra!");
+                    Console.ReadKey();
+                }
+                if (isAmountOkConvert == true && isIdOkConvert == true)
+                {
+                    LookForProduct(convertedAmount);
+                }
+                if (isProductOK == false && isAmountOkConvert == true && isIdOkConvert == true)
+                {
+                    Console.WriteLine("Varan finns inte");
+                    Console.ReadKey();
+                }
+                PrintReceipt();
+                isProductOK = false;
             }
+
+        }
+
+        private void Paying()
+        {
+            moneyTotalInString = Convert.ToString(moneyTotal);
+            kvittoLista.Add(moneyTotalInString);
+
+            WriteToTextFile();
+            Console.BackgroundColor = ConsoleColor.Black;
+
+            isProductOK = true;
         }
 
         private void ResetValues()
@@ -107,6 +108,8 @@ namespace Kassasystem
             amountOfProducts = 0;
             moneyTotal = 0;
             price = "0";
+            cashRegisterInput = "";
+
         }
 
         private void PrintReceipt()
@@ -150,7 +153,7 @@ namespace Kassasystem
                         }
                     }
                 }
-                
+
                 kvittoLista.Insert(0, $"--------------KVITTO-NUMMER: {produkt.SerialNumber}--------------");
                 kvittoLista.Add("----------------------------------------------");
                 File.WriteAllLines(receiptPath, kvittoLista);
@@ -203,14 +206,15 @@ namespace Kassasystem
                     amountOfProducts++;
                     if (amountOfProducts == 1)
                     {
-                        kvittoLista.Add($"KVITTO    {p.now} \n{p.ProductName} {amount} *{price}{p.Unit} = {convertedPrice * convertedAmount}");
-                        Console.WriteLine($"Total: {moneyTotal += convertedPrice * convertedAmount}");
+                        kvittoLista.Add($"KVITTO    {p.now} \n{p.ProductName} {amount} *{price}{p.Unit} = {Math.Round(convertedPrice * convertedAmount, 2)}");
+                        moneyTotal += convertedPrice * convertedAmount;
+                        Console.WriteLine($"Total: {moneyTotal = Math.Round(moneyTotal, 2)}");
                     }
                     else
                     {
-                        kvittoLista.Add($"{p.ProductName} {amount} *{price}{p.Unit} = {convertedPrice * convertedAmount}");
-                        Console.WriteLine($"Total: {moneyTotal += convertedPrice * convertedAmount}");
-                        
+                        kvittoLista.Add($"{p.ProductName} {amount} *{price}{p.Unit} = {Math.Round(convertedPrice * convertedAmount, 2)}");
+                        moneyTotal += convertedPrice * convertedAmount;
+                        Console.WriteLine($"Total: {moneyTotal = Math.Round(moneyTotal, 2)}");
                     }
                     isProductOK = true;
                     break;

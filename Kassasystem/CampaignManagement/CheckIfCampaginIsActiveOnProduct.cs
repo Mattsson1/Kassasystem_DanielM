@@ -6,6 +6,7 @@
 
         public string FindCampaign(string ID, string basePrice)
         {
+            isCampaignFound = false;
             var produktHelper = new ProductHelper();
             var campaignList = produktHelper.ReadCampaignFile();
 

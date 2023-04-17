@@ -17,6 +17,7 @@ namespace Kassasystem
 
         public void CampaignSelect()
         {
+            Console.Clear();
             Console.WriteLine("1. Lägg till Kampanj");
             Console.WriteLine("2. Ta bort Kampanj");
             Console.WriteLine("3. Visa alla kampanjer");
@@ -33,6 +34,7 @@ namespace Kassasystem
                         break;
                     case 3:
                         PrintAllCampaigns();
+                        Console.ReadKey();
                         break;
                     case 4:
                         break;
