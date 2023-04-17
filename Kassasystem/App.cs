@@ -1,19 +1,15 @@
 ﻿namespace Kassasystem
 {
-    internal class App
+    public class App
     {
+        private int val;
+        private bool isSelectionOk = false;
         public void Run()
-        {
-            
-            
+        {           
             Console.Clear();
-            var nyKund = new NyKund();
-            var adminApp = new AdminConsoleApp();
-            var admin = new AdminConsoleApp();
-
-            int val;
-            bool isSelectionOk = false;
-
+            var nyKund = new CashRegister();
+            var adminApp = new AdminConsoleApp();                    
+            
             while (isSelectionOk == false)
             {
                 Console.Clear();
