@@ -8,10 +8,9 @@ namespace Kassasystem
         Produkt produkt = new Produkt();
         ProductHelper productHelper = new ProductHelper();
 
-        private string cashRegisterInput;
         private string[] productsArray;
         private string folder = @".\Kvitton\";
-        private string product, ID, amount, price;
+        private string product, ID, amount, price, cashRegisterInput, moneyTotalInString;
         private int amountOfProducts = 0;
 
         private List<Produkt> produkter;
@@ -19,9 +18,7 @@ namespace Kassasystem
         List<string> kvittoText = new List<string>();
 
         private bool isPaying, isProductOK, isAmountOkConvert, isIdOkConvert = false;
-
-        private double moneyTotal = 0, convertedPrice;
-        private string moneyTotalInString;
+        private double moneyTotal = 0, convertedPrice;        
 
         public void NewCustomer()
         {
@@ -33,7 +30,7 @@ namespace Kassasystem
 
             productHelper.ReadProductFile();
 
-            while (isPaying == false || cashRegisterInput.ToUpper() == "EXIT")
+            while (isPaying == false)
             {
                 while (isProductOK == false)
                 {
@@ -70,7 +67,7 @@ namespace Kassasystem
                         Console.WriteLine("Fyll i ett giltigt antal!");
                         Console.ReadKey();
                     }
-                    if (isIdOkConvert == false)
+                    else if (isIdOkConvert == false)
                     {
                         Console.WriteLine("ProduktID måste vara en siffra!");
                         Console.ReadKey();
@@ -79,17 +76,15 @@ namespace Kassasystem
                     {
                         LookForProduct(convertedAmount);
                     }
-
                     if (isProductOK == false && isAmountOkConvert == true && isIdOkConvert == true)
                     {
                         Console.WriteLine("Varan finns inte");
                         Console.ReadKey();
                     }
 
+
                     PrintReceipt();
-
                     isProductOK = false;
-
                 }
                 moneyTotalInString = Convert.ToString(moneyTotal);
                 kvittoLista.Add(moneyTotalInString);
@@ -107,7 +102,7 @@ namespace Kassasystem
         {
             kvittoLista = new List<string>();
             kvittoText = new List<string>();
-            produkt.lopNummer = 0;
+            produkt.SerialNumber = 0;
             convertedPrice = 0;
             amountOfProducts = 0;
             moneyTotal = 0;
@@ -151,12 +146,13 @@ namespace Kassasystem
                     {
                         if (s.Contains("KVITTO-NUMMER:"))
                         {
-                            produkt.lopNummer++;
+                            produkt.SerialNumber++;
                         }
                     }
                 }
-                kvittoLista.Add($"--------------KVITTO-NUMMER: {produkt.lopNummer}--------------");
-
+                
+                kvittoLista.Insert(0, $"--------------KVITTO-NUMMER: {produkt.SerialNumber}--------------");
+                kvittoLista.Add("----------------------------------------------");
                 File.WriteAllLines(receiptPath, kvittoLista);
             }
             else
@@ -169,11 +165,12 @@ namespace Kassasystem
                     {
                         if (s.Contains("KVITTO-NUMMER:"))
                         {
-                            produkt.lopNummer++;
+                            produkt.SerialNumber++;
                         }
                     }
                 }
-                kvittoLista.Add($"--------------KVITTO-NUMMER: {produkt.lopNummer}--------------\n");
+                kvittoLista.Insert(0, $"--------------KVITTO-NUMMER: {produkt.SerialNumber}--------------");
+                kvittoLista.Add("----------------------------------------------");
                 File.AppendAllLines(receiptPath, kvittoLista);
             }
         }
@@ -198,7 +195,7 @@ namespace Kassasystem
             produkter = productHelper.ReadProductFile();
             foreach (var p in produkter)//GÖRA OM TILL FUNKTION?
             {
-                if (p.ProduktID == ID)
+                if (p.ProductID == ID)
                 {
                     price = findCampaign.FindCampaign(ID, p.BasePrice);
                     bool isPriceOkConvert = double.TryParse(price, out convertedPrice);//FIXA KONVERTERINGEN
@@ -206,13 +203,14 @@ namespace Kassasystem
                     amountOfProducts++;
                     if (amountOfProducts == 1)
                     {
-                        kvittoLista.Add($"KVITTO    {p.now} \n{p.ProduktNamn} {amount} *{price}{p.Enhet} = {convertedPrice * convertedAmount}");
-                        moneyTotal += convertedPrice * convertedAmount;
+                        kvittoLista.Add($"KVITTO    {p.now} \n{p.ProductName} {amount} *{price}{p.Unit} = {convertedPrice * convertedAmount}");
+                        Console.WriteLine($"Total: {moneyTotal += convertedPrice * convertedAmount}");
                     }
                     else
                     {
-                        kvittoLista.Add($"{p.ProduktNamn} {amount} *{price}{p.Enhet} = {convertedPrice * convertedAmount}");
-                        moneyTotal += convertedPrice * convertedAmount;
+                        kvittoLista.Add($"{p.ProductName} {amount} *{price}{p.Unit} = {convertedPrice * convertedAmount}");
+                        Console.WriteLine($"Total: {moneyTotal += convertedPrice * convertedAmount}");
+                        
                     }
                     isProductOK = true;
                     break;

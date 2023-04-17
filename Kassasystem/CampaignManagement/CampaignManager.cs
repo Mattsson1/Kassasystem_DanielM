@@ -118,7 +118,7 @@ namespace Kassasystem
             List<Produkt> ExistingProducts = productHelper.ReadProductFile();
             foreach (var prod in ExistingProducts)
             {
-                if (idInput == prod.ProduktID)
+                if (idInput == prod.ProductID)
                 {
                     Console.WriteLine("Ska kampanjen vara i procent eller vill du ändra hela priset?");
                     Console.WriteLine("1. Procent");

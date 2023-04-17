@@ -25,18 +25,19 @@ namespace Kassasystem
                     productHelper.PrintProducts();
 
                     val = Console.ReadLine();
+                    if(val.ToLower() == "exit") { break; }
                     foreach (var s in products)
                     {
-                        if (val == s.ProduktID)
+                        if (val == s.ProductID)
                         {
                             isProductFound = true;
 
-                            products.RemoveAll(product => val.Contains(product.ProduktID));
+                            products.RemoveAll(product => val.Contains(product.ProductID));
 
                             List<string> produktStrings = productHelper.ConvertProductToListString(products);
 
                             File.WriteAllLines(produktPath, produktStrings);
-                            Console.WriteLine($"{s.ProduktNamn} Bortagen från kassan");
+                            Console.WriteLine($"{s.ProductName} Bortagen från kassan");
                             break;
                         }
                     }

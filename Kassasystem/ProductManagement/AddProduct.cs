@@ -35,7 +35,7 @@ namespace Kassasystem
                         foreach (var s in produkts)
                         {
                             int idINT;
-                            idList.Add(idINT = Convert.ToInt32(s.ProduktID));
+                            idList.Add(idINT = Convert.ToInt32(s.ProductID));
                         }
 
                         idInput = Convert.ToInt32(Console.ReadLine());
@@ -45,9 +45,9 @@ namespace Kassasystem
                         {
                             Console.WriteLine("Id måste vara mellan 0 till 1000");
                             Console.ReadKey();
-                            isIdOk = false;
+
                         }
-                        else if (isIdOk == false)
+                        else if (isIdOk == true)
                         {
                             Console.WriteLine("Id finns redan! välj ett annat!");
                             Console.ReadKey();
@@ -61,37 +61,8 @@ namespace Kassasystem
                     Console.WriteLine("Ange namnet på produkten");
                     ProduktNamn = Console.ReadLine();
 
-                    Console.Clear();
-                    Console.WriteLine("Vilken Pris enhet vill du ha på produkten?");
-                    Console.WriteLine("1. KR/ST");
-                    Console.WriteLine("2. KR/KG");
+                    GetPriceUnit();
 
-                    while (isUnitOk == false)
-                    {
-                        if (int.TryParse(Console.ReadLine(), out val))
-                        {
-                            if (val == 1)
-                            {
-                                Enhet = "kr/st";
-                                isUnitOk = true;
-                                break;
-                            }
-                            if (val == 2)
-                            {
-                                Enhet = "kr/kg";
-                                isUnitOk = true;
-                                break;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Välj mellan de två alternativen");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Du måste ange siffror och välja mellan de två alternativen");
-                        }
-                    }
                     Console.WriteLine("Ange hur mycket produkten ska kosta");
                     Pris = Console.ReadLine();
 
@@ -100,9 +71,7 @@ namespace Kassasystem
                     File.AppendAllLines(produktPath, produktAdds);
 
                     Console.WriteLine($"Produkt {ProduktNamn} tillagd!");
-
                     okProdukt = true;
-
                     Console.ReadKey();
                 }
                 catch (Exception)
@@ -111,6 +80,45 @@ namespace Kassasystem
                     Console.ReadKey();
                 }
             }
+        }
+
+        public string GetPriceUnit()
+        {
+            while (isUnitOk == false)            
+            {
+                Console.Clear();
+                Console.WriteLine("Vilken Pris enhet vill du ha på produkten?");
+                Console.WriteLine("1. KR/ST");
+                Console.WriteLine("2. KR/KG");
+
+                if (int.TryParse(Console.ReadLine(), out val))
+                {
+                    if (val == 1)
+                    {
+                        Enhet = "kr/st";
+                        isUnitOk = true;
+                        break;
+                    }
+                    if (val == 2)
+                    {
+                        Enhet = "kr/kg";
+                        isUnitOk = true;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Välj mellan de två alternativen");
+                        Console.ReadKey();                    
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Du måste ange siffror och välja mellan de två alternativen");
+                    Console.ReadKey();
+                }
+                
+            }
+            return Enhet;
         }
     }
 }

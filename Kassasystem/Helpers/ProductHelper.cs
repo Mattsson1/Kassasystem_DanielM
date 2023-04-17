@@ -1,5 +1,4 @@
-﻿
-using Kassasystem.Models;
+﻿using Kassasystem.Models;
 
 namespace Kassasystem
 {
@@ -11,12 +10,12 @@ namespace Kassasystem
         public void PrintProducts()
         {
             List<Produkt> produkts = ReadProductFile();
-            var sortedList = produkts.OrderBy(p => int.Parse(p.ProduktID)).ToList();
+            var sortedList = produkts.OrderBy(p => int.Parse(p.ProductID)).ToList();
             foreach (var s in sortedList)
             {
                 Console.Write("ID:");
-                Console.Write($"{s.ProduktID}", Console.ForegroundColor = ConsoleColor.DarkRed);
-                Console.Write($"-{s.ProduktNamn} {s.BasePrice}{s.Enhet}\n", Console.ForegroundColor = ConsoleColor.White);
+                Console.Write($"{s.ProductID}", Console.ForegroundColor = ConsoleColor.DarkRed);
+                Console.Write($"-{s.ProductName} {s.BasePrice}{s.Unit}\n", Console.ForegroundColor = ConsoleColor.White);
             }
         }
         public List<Produkt> ReadProductFile()
@@ -35,10 +34,10 @@ namespace Kassasystem
                 var readProdukt = new Produkt();
 
                 string[] productArray = line.Split(".");
-                readProdukt.ProduktID = productArray[0];
-                readProdukt.ProduktNamn = productArray[1];
+                readProdukt.ProductID = productArray[0];
+                readProdukt.ProductName = productArray[1];
                 readProdukt.BasePrice = productArray[2];
-                readProdukt.Enhet = productArray[3];
+                readProdukt.Unit = productArray[3];
 
                 produkter.Add(readProdukt);
             }
@@ -59,7 +58,6 @@ namespace Kassasystem
                 //var dateStart = Convert.ToString(campaign.CampaignStart);
                 //var dateEnd = Convert.ToString(campaign.CampaignEnd);
 
-
                 string[] campaignArray = camp.Split(":");
 
                 campaign.ProductID = campaignArray[0];
@@ -70,14 +68,13 @@ namespace Kassasystem
 
                 campaigns.Add(campaign);
             }
-
             return campaigns;
         }
 
 
         public List<string> ConvertProductToListString(List<Produkt> products)
         {
-            List<string> produktStrings = products.Select(s => $"{s.ProduktID}.{s.ProduktNamn}.{s.BasePrice}.{s.Enhet}").ToList();
+            List<string> produktStrings = products.Select(s => $"{s.ProductID}.{s.ProductName}.{s.BasePrice}.{s.Unit}").ToList();
             return produktStrings;
         }
 

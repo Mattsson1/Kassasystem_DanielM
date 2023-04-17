@@ -41,6 +41,5 @@
                 Console.WriteLine("Ogiltig inmatning");
             }
         }
-
     }
 }

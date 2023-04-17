@@ -28,7 +28,6 @@
                         isCampaignFound = true;
                         break;
                     }
-
                 }
             }
             if(isCampaignFound == false)
