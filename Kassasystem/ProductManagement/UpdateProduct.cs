@@ -31,6 +31,7 @@ namespace Kassasystem
             if (int.TryParse(Console.ReadLine(), out val))
             {
                 string valUpt = Convert.ToString(val);
+
                 foreach (var s in produkts)
                 {
                     if (valUpt == s.ProductID)
@@ -88,5 +89,4 @@ namespace Kassasystem
             return newName;
         }
     }
-
 }

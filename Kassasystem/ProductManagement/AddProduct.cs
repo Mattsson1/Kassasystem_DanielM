@@ -84,6 +84,7 @@ namespace Kassasystem
 
         public string GetPriceUnit()
         {
+            isUnitOk = false;
             while (isUnitOk == false)            
             {
                 Console.WriteLine("Vilken Pris enhet vill du ha på produkten?");

@@ -54,7 +54,11 @@ namespace Kassasystem
 
         private List<string> PrintAllCampaigns()
         {
-            campaignListString = File.ReadAllLines(filePath).ToList();
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath).Close();
+            }
+                campaignListString = File.ReadAllLines(filePath).ToList();
 
             foreach (var s in campaignListString)
             {
@@ -172,7 +176,7 @@ namespace Kassasystem
                 else if (unit == "2" || unit == "kr")
                 {
                     Console.WriteLine("Hur mycket ska produkten kosta?");
-                    int krPrice = Convert.ToInt32(Console.ReadLine());
+                    int krPrice = Convert.ToInt32(Console.ReadLine().Replace(".",","));
                     newPrice = krPrice;
                     return newPrice;
                 }

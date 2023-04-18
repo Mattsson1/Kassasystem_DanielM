@@ -161,7 +161,6 @@ namespace Kassasystem
             else
             {
                 foreach (var file in Directory.EnumerateFiles(folder))
-
                 {
                     kvittoText = File.ReadAllLines(file).ToList();
                     foreach (var s in kvittoText)
