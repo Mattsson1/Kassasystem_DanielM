@@ -5,7 +5,7 @@ namespace Kassasystem
     public class ProductHelper
     {
         private string produktPath = @".\Produkt.txt";
-        private string campaignPath = @".\Kampanjer";
+        private string campaignPath = @".\Kampanjer.txt";
 
         public void PrintProducts()
         {
@@ -20,13 +20,12 @@ namespace Kassasystem
         }
         public List<Produkt> ReadProductFile()
         {
-
             if (!File.Exists(produktPath))
             {
-                File.Create(produktPath);
+                File.Create(produktPath).Close();               
             }
-            List<string> lines = File.ReadAllLines(produktPath).ToList();
 
+            List<string> lines = File.ReadAllLines(produktPath).ToList();
             var produkter = new List<Produkt>();
 
             foreach (string line in lines)
@@ -46,17 +45,17 @@ namespace Kassasystem
 
         public List<Campaign> ReadCampaignFile()
         {
+            if (!File.Exists(campaignPath))
+            {
+                File.Create(campaignPath).Close();
+            }
 
             var campaigns = new List<Campaign>();
-
             List<string> textCampaignList = File.ReadAllLines(campaignPath).ToList();
 
             foreach (var camp in textCampaignList)
             {
                 var campaign = new Campaign();
-                //var stringPrice = Convert.ToString(campaign.NewPrice);
-                //var dateStart = Convert.ToString(campaign.CampaignStart);
-                //var dateEnd = Convert.ToString(campaign.CampaignEnd);
 
                 string[] campaignArray = camp.Split(":");
 
@@ -71,7 +70,6 @@ namespace Kassasystem
             return campaigns;
         }
 
-
         public List<string> ConvertProductToListString(List<Produkt> products)
         {
             List<string> produktStrings = products.Select(s => $"{s.ProductID}.{s.ProductName}.{s.BasePrice}.{s.Unit}").ToList();
@@ -83,6 +81,5 @@ namespace Kassasystem
             List<string> campaignStrings = campaigns.Select(c => $"{c.ProductID}:{c.CampaignProductName}:{c.NewPrice}:{c.CampaignStart}:{c.CampaignEnd}").ToList();
             return campaignStrings;
         }
-
     }
 }

@@ -6,18 +6,17 @@ namespace Kassasystem
     {
         private string val;
         private bool isProductFound = false;
-
+        private string produktPath = @".\Produkt.txt";
+        private List<Produkt> products = new List<Produkt>();
         public void Delete()
-        {
-            string produktPath = @".\Produkt.txt";
-
+        {            
             while (isProductFound == false)
             {
                 try
                 {
                     var productHelper = new ProductHelper();
                     var nyKund = new CashRegister();
-                    List<Produkt> products = productHelper.ReadProductFile();
+                    products = productHelper.ReadProductFile();
 
                     Console.Clear();
                     Console.WriteLine("Ange ID för den produkt du vill ta bort");

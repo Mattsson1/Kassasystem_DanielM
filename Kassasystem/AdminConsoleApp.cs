@@ -1,6 +1,6 @@
 ﻿namespace Kassasystem
 {
-    public partial class AdminConsoleApp
+    public class AdminConsoleApp
     {
         private int val;
 

@@ -9,15 +9,15 @@ namespace Kassasystem
         private List<Campaign> campaignObject = new List<Campaign>();
 
         private string idInput, campaignNameInput;
-        private string filePath = @".\Kampanjer";
+        private string filePath = @".\Kampanjer.txt";
         private bool isCampaignFound = false;
         private int val;
         private double newPrice;
         private DateTime campaignStartDate, campaignEndDate;
 
-
         public void CampaignSelect()
         {
+            Console.Clear();
             Console.WriteLine("1. Lägg till Kampanj");
             Console.WriteLine("2. Ta bort Kampanj");
             Console.WriteLine("3. Visa alla kampanjer");
@@ -34,6 +34,7 @@ namespace Kassasystem
                         break;
                     case 3:
                         PrintAllCampaigns();
+                        Console.ReadKey();
                         break;
                     case 4:
                         break;
@@ -53,7 +54,11 @@ namespace Kassasystem
 
         private List<string> PrintAllCampaigns()
         {
-            campaignListString = File.ReadAllLines(filePath).ToList();
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath).Close();
+            }
+                campaignListString = File.ReadAllLines(filePath).ToList();
 
             foreach (var s in campaignListString)
             {
@@ -63,17 +68,14 @@ namespace Kassasystem
             return campaignListString;
         }
 
-
         private void RemoveCampaign()
         {
-
             while (isCampaignFound == false)
             {
                 Console.Clear();
                 Console.WriteLine("Skriv in kampanj-namnet på den du vill ta bort");
                 Console.WriteLine("Skriv EXIT för att återgå till meny");
                 PrintAllCampaigns();
-
 
                 campaignNameInput = Console.ReadLine();
                 if (campaignNameInput.ToLower() == "exit") { isCampaignFound = true; break; }
@@ -143,8 +145,10 @@ namespace Kassasystem
 
         private void WriteCampaignsToTextFile()
         {
+           
             if (!File.Exists(filePath))
             {
+                File.Create(filePath).Close();
                 File.WriteAllLines(filePath, campaignListString);
             }
             else
@@ -170,7 +174,7 @@ namespace Kassasystem
                 else if (unit == "2" || unit == "kr")
                 {
                     Console.WriteLine("Hur mycket ska produkten kosta?");
-                    int krPrice = Convert.ToInt32(Console.ReadLine());
+                    int krPrice = Convert.ToInt32(Console.ReadLine().Replace(".",","));
                     newPrice = krPrice;
                     return newPrice;
                 }
@@ -183,7 +187,7 @@ namespace Kassasystem
 
         private (DateTime, DateTime) DateTimeInputHandler()
         {
-            Console.WriteLine("När ska kampanjen börja gälla?");
+            Console.WriteLine("När ska kampanjen börja gälla? Fyll i YYYY-MM-DD");
             while (true)
             {
                 if (DateTime.TryParse(Console.ReadLine(), out campaignStartDate))
