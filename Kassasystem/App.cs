@@ -5,7 +5,8 @@
         private int val;
         private bool isSelectionOk = false;
         public void Run()
-        {           
+        {
+            isSelectionOk = false;
             Console.Clear();
             var nyKund = new CashRegister();
             var adminApp = new AdminConsoleApp();                    

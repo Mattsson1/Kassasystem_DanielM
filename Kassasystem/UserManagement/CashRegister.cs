@@ -24,8 +24,7 @@ namespace Kassasystem
         {
             ResetValues();
 
-            Console.Clear();
-            productHelper.ReadProductFile();
+            Console.Clear();        
 
 
             while (isProductOK == false)
@@ -109,6 +108,7 @@ namespace Kassasystem
             moneyTotal = 0;
             price = "0";
             cashRegisterInput = "";
+            isProductOK = false;
 
         }
 

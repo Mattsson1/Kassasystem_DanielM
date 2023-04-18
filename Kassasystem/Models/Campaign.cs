@@ -1,4 +1,4 @@
-﻿
+﻿ 
 namespace Kassasystem
 {
     public class Campaign

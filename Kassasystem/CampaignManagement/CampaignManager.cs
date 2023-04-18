@@ -9,7 +9,7 @@ namespace Kassasystem
         private List<Campaign> campaignObject = new List<Campaign>();
 
         private string idInput, campaignNameInput;
-        private string filePath = @".\Kampanjer";
+        private string filePath = @".\Kampanjer.txt";
         private bool isCampaignFound = false;
         private int val;
         private double newPrice;
@@ -143,8 +143,10 @@ namespace Kassasystem
 
         private void WriteCampaignsToTextFile()
         {
+           
             if (!File.Exists(filePath))
             {
+                File.Create(filePath).Close();
                 File.WriteAllLines(filePath, campaignListString);
             }
             else

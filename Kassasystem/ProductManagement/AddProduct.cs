@@ -86,7 +86,6 @@ namespace Kassasystem
         {
             while (isUnitOk == false)            
             {
-                Console.Clear();
                 Console.WriteLine("Vilken Pris enhet vill du ha på produkten?");
                 Console.WriteLine("1. KR/ST");
                 Console.WriteLine("2. KR/KG");

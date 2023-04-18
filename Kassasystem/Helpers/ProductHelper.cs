@@ -5,7 +5,7 @@ namespace Kassasystem
     public class ProductHelper
     {
         private string produktPath = @".\Produkt.txt";
-        private string campaignPath = @".\Kampanjer";
+        private string campaignPath = @".\Kampanjer.txt";
 
         public void PrintProducts()
         {
@@ -23,8 +23,10 @@ namespace Kassasystem
 
             if (!File.Exists(produktPath))
             {
-                File.Create(produktPath);
+                File.Create(produktPath).Close();
+               
             }
+
             List<string> lines = File.ReadAllLines(produktPath).ToList();
 
             var produkter = new List<Produkt>();
@@ -46,9 +48,12 @@ namespace Kassasystem
 
         public List<Campaign> ReadCampaignFile()
         {
+            if (!File.Exists(campaignPath))
+            {
+                File.Create(campaignPath).Close();
+            }
 
             var campaigns = new List<Campaign>();
-
             List<string> textCampaignList = File.ReadAllLines(campaignPath).ToList();
 
             foreach (var camp in textCampaignList)
