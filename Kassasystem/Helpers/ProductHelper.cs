@@ -20,15 +20,12 @@ namespace Kassasystem
         }
         public List<Produkt> ReadProductFile()
         {
-
             if (!File.Exists(produktPath))
             {
-                File.Create(produktPath).Close();
-               
+                File.Create(produktPath).Close();               
             }
 
             List<string> lines = File.ReadAllLines(produktPath).ToList();
-
             var produkter = new List<Produkt>();
 
             foreach (string line in lines)
@@ -59,9 +56,6 @@ namespace Kassasystem
             foreach (var camp in textCampaignList)
             {
                 var campaign = new Campaign();
-                //var stringPrice = Convert.ToString(campaign.NewPrice);
-                //var dateStart = Convert.ToString(campaign.CampaignStart);
-                //var dateEnd = Convert.ToString(campaign.CampaignEnd);
 
                 string[] campaignArray = camp.Split(":");
 
@@ -76,7 +70,6 @@ namespace Kassasystem
             return campaigns;
         }
 
-
         public List<string> ConvertProductToListString(List<Produkt> products)
         {
             List<string> produktStrings = products.Select(s => $"{s.ProductID}.{s.ProductName}.{s.BasePrice}.{s.Unit}").ToList();
@@ -88,6 +81,5 @@ namespace Kassasystem
             List<string> campaignStrings = campaigns.Select(c => $"{c.ProductID}:{c.CampaignProductName}:{c.NewPrice}:{c.CampaignStart}:{c.CampaignEnd}").ToList();
             return campaignStrings;
         }
-
     }
 }

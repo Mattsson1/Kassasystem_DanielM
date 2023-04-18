@@ -68,10 +68,8 @@ namespace Kassasystem
             return campaignListString;
         }
 
-
         private void RemoveCampaign()
         {
-
             while (isCampaignFound == false)
             {
                 Console.Clear();

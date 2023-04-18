@@ -33,7 +33,7 @@ namespace Kassasystem
 
                 ProductInput();
 
-                if (cashRegisterInput == "pay".ToLower())//CHECKOUT
+                if (cashRegisterInput == "pay".ToLower())
                 {
                     Paying();                    
                     break;
@@ -43,7 +43,7 @@ namespace Kassasystem
                     isProductOK = true;
                     break;
                 }
-                while (productsArray.Length < 1 || productsArray.Length > 2)//Fixa kommandon/text
+                while (productsArray.Length < 1 || productsArray.Length > 2)
                 {
                     Console.WriteLine("Du måste fylla i <produktid> och <antal>! ");
                     ProductInput();
